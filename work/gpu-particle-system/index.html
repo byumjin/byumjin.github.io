@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPU particle system — Byumjin Kim</title>
+<meta name="description" content="University of Pennsylvania
+pennkey : byumjin
+name : Byumjin Kim
+Git repo
+
+Live Demo
+
+
+
+They are a million!
+
+
+
+
+
+
+
+
+
+
+
+
+WebGL Link
+
+
+Used number of particles : 1">
+<meta property="og:title" content="GPU particle system — Byumjin Kim">
+<meta property="og:description" content="University of Pennsylvania
+pennkey : byumjin
+name : Byumjin Kim
+Git repo
+
+Live Demo
+
+
+
+They are a million!
+
+
+
+
+
+
+
+
+
+
+
+
+WebGL Link
+
+
+Used number of particles : 1">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2018</span>
+    <h1>GPU particle system</h1>
+  </header>
+  <div class="prose">
+<ul>
+<li>University of Pennsylvania</li>
+<li>pennkey : byumjin</li>
+<li>name : <a href="https://github.com/byumjin">Byumjin Kim</a></li>
+<li><a href="https://github.com/byumjin/WebGL2-GPU-Particle">Git repo</a></li>
+</ul>
+<h2>Live Demo</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>They are a million!</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://byumjin.github.io/WebGL2-GPU-Particle/" rel="nofollow"><img src="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/main.webp" alt="" / loading="lazy"></a></td>
+</tr>
+<tr>
+<td><a href="https://byumjin.github.io/WebGL2-GPU-Particle/" rel="nofollow"><video class="gifvid" src="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/main.mp4" autoplay loop muted playsinline preload="metadata"></video></a></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><a href="https://byumjin.github.io/WebGL2-GPU-Particle/" rel="nofollow">WebGL Link</a></li>
+</ul>
+<ul>
+<li>Used number of particles : 1,048,576 (1024 x 1024)</li>
+<li>Volume up!</li>
+</ul>
+<h3>GUI</h3>
+<p><a href="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/GUI.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/GUI.webp" alt="" / loading="lazy"></a></p>
+<ul>
+<li>AutoPlay : It shows pre-ordered scenes. Recommend to use it.</li>
+<li>MaxSpeed : The max speed of each particle</li>
+<li>ParticleSize : The size of each Particle quad</li>
+<li>Alpha : The alpha of each Particle</li>
+<li>ColorScheme : The use can choose one of pre-defined color schemes</li>
+<li>Shape : The shape of mesh which attracts particles</li>
+<li>Background : Setting force-field for background particles</li>
+</ul>
+<h2>GPU particle</h2>
+<p>If we try to implement particle system on CPU side, we can&#8217;t create a bunch of particles because of the limitation of available threads. To address this issue, we can use GPU to simulate our particles. Because, like a physics simulation, each particle can be simulated individually. But, the problem is WebGL2 is still not supporting compute shader. So, we can implement this with using only vertex and fragment shader. (Actually, we can also use transform feedback, and it might be more efficient)</p>
+<p>First, we need to use textures for storing our particles&#8217; information. In other words, each texel has its one particle&#8217;s information. Thus, the resolution of textures equals the number of controlable particles. For this project, I use Runge-Kutta&#8217;s intergration method. So, I needed 6 textures for velocity, velocityPrime, position, positionPrime, prevVelocity, prevPosition. (If I use Euler intergration, it needs only 2 textures for velocity and position) But, if I use one framebuffer for each texture, it will make slow performance. To handle this, I drew multiple render targets (I used 2 additional frame buffers for simulating particles, one for velocityPrime, positionPrime, prevVelocity, prevPosition, another for velocity, position) at once like deferred rendering.</p>
+<p>In vertex shader, each instanced quad takes exact one pixel of texture. In fragment shader, it uses its particle information from particle information textures with its&#8217; same UV coordinates.</p>
+<h2>Procedural coloration and shaping of particles</h2>
+<p>This project uses 3 color schemes called Macaroon, Magenta, Jungle.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Macaroon</th>
+<th>Magenta</th>
+<th>Jungle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/Macaroon.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/Macaroon.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/Magenta.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/Magenta.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/Jungle.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/homework-6-particle-system-byumjin/imgs/Jungle.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>Basically, colors are determined by mesh&#8217;s UV coordinates and elapsed time. And, the alpha value follows the velocity of its particle.</p>
+<h2>Interactive forces</h2>
+<p>Like Nop Jiarathanakul&#8217;s <a href="http://www.iamnop.com/particles/" rel="nofollow">Particle Dream application</a>, Left click attracts the around particles and Right Click repels them. To do this, it ray-traced to an infinite plane, which cross the origin, from the camera when the user clicks the screen. Then, apply the right force to interact with the particles.</p>
+<p>When the user chooses a mesh to pop up, there are remained particles which wonder the background. These particles will follow one of the pre-defined force-field what the user chooses from GUI.</p>
+<h2>Mesh surface attraction</h2>
+<p>Just followed <a href="https://github.com/CIS-566-2018/homework-6-particle-system-eldu">the instruction</a>. Depending on the number of vertices, the number of new generated vertices on the surface is determined for preventing to generate particles which over maxium count.</p>
+<h2>Reference</h2>
+<p><a href="http://www.iamnop.com/particles/" rel="nofollow">Particle Dream application</a></p>
+<h2>Resource</h2>
+<h3>Model</h3>
+<ul>
+<li><a href="https://www.blender.org/" rel="nofollow">Suzanne</a></li>
+<li><a href="http://casual-effects.com/data/" rel="nofollow">Stanford dragon</a></li>
+<li>Chromie from <a href="https://us.battle.net/heroes/en/" rel="nofollow">Heroes of the Storm</a></li>
+</ul>
+<h3>Music</h3>
+<ul>
+<li>Luna &#8211; Free Somebody</li>
+</ul>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

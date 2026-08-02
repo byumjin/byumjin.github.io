@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini minecraft project — Byumjin Kim</title>
+<meta name="description" content="(This is a school project)
+This is the final group project of Interactive Computer Graphics course.
+The goal of this project is to build from an empty QT projec">
+<meta property="og:title" content="Mini minecraft project — Byumjin Kim">
+<meta property="og:description" content="(This is a school project)
+This is the final group project of Interactive Computer Graphics course.
+The goal of this project is to build from an empty QT projec">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2016</span>
+    <h1>Mini minecraft project</h1>
+  </header>
+  <div class="prose">
+<p><div class="embed"><iframe src="https://www.youtube.com/embed/17jfYrYYbP0" width="1120" height="630" frameborder="0" allowfullscreen="allowfullscreen" loading="lazy" allowfullscreen></iframe></div></p>
+<p>(This is a school project)</p>
+<p>This is the final group project of Interactive Computer Graphics course.<br />
+The goal of this project is to build from an empty QT project that has nothing implemented to a level where it can show similar graphics as MineCraft.<br />
+I&#8217;m responsible for Perlin Noise Terrain, Texture Animation, Skybox, Day &amp; Night Cycle, Shadow Mapping and Post Process Effect for Snow and Rain</p>
+<h2>All Features</h2>
+<ul>
+<li>Perlin Noise Terrain</li>
+<li>Perlin Worm Caves</li>
+<li>Chunk Terrain Rendering</li>
+<li>Terrain Collisions and Physics</li>
+<li>Texture Animation(Water and Lava)</li>
+<li>L-System River</li>
+<li>Skybox</li>
+<li>Snow and Rain</li>
+<li>Shadow Mapping</li>
+<li>Day &amp; Night Cycle</li>
+<li>Fire</li>
+<li>Inventory GUI</li>
+<li>Post Process Effect</li>
+</ul>
+<h3>Perlin Noise Terrain</h3>
+<p class="ng-scope">Using a continuous 2D <a href="http://flafla2.github.io/2014/08/09/perlinnoise.html">Perlin noise</a> function, create terrain blocks using a height field. When a new chunk of terrain is generated, its contents blend seamlessly with the chunks of terrain generated at the current world boundary.</p>
+<h3>Day &amp; Night Cycle</h3>
+<p>I modified the direction of light, color of light, intensity of light, and color of the sky over a period of time to simulate a day/night cycle. In addition, I used a series of textures that are mapped to a cube that is rendered as the skybox. These textures blend between one another as time advances.</p>
+<h3>Shadow Mapping</h3>
+<p>I created simple dynamic real-time shadows using the technique known as shadow mapping. And, I divided the areas of shadow to implement cascade shadow for better quality.</p>
+<h3>Post Process Effect</h3>
+<div class="text"> When the weather is changed to rain or snow, post process effect is executed. I inspired this from <a href="https://www.youtube.com/watch?v=-BEFdvniAtI">Rise of the Tomb Raider</a>.</div>
+
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

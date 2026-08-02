@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voxel Global Ilumination — Byumjin Kim</title>
+<meta name="description" content="Git repo
+Overview
+We have implemented Voxel Global illumination and VR pipeline with Vulkan for the final project of GPU programming. We have decided to use Vul">
+<meta property="og:title" content="Voxel Global Ilumination — Byumjin Kim">
+<meta property="og:description" content="Git repo
+Overview
+We have implemented Voxel Global illumination and VR pipeline with Vulkan for the final project of GPU programming. We have decided to use Vul">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2017</span>
+    <h1>Voxel Global Ilumination</h1>
+  </header>
+  <div class="prose">
+<p><div class="embed"><iframe src="https://www.youtube.com/embed/gxsw70vPujc" width="1280" height="720" frameborder="0" allowfullscreen="allowfullscreen" loading="lazy" allowfullscreen></iframe></div><br />
+<a href="https://github.com/byumjin/Vulkan-VR-FrameWork">Git repo</a></p>
+<h1>Overview</h1>
+<p>We have implemented Voxel Global illumination and VR pipeline with Vulkan for the final project of GPU programming. We have decided to use Vulcan to implement what each team member is interested in. However, the relevance of the objects was too different each other, and the scale was too large to merge them in a given time. Thus, we could not use most of our time to collaborate. Byumjin Kim have taken to implement the engine base and VXGI which referred to <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.225.5903&amp;rep=rep1&amp;type=pdf" rel="nofollow">Interactive indirect illumination using voxel cone tracing</a>, and Josh Lawrence have taken the VR mode and the part for interacting with Oculus HMD.</p>
+<h2>Deferred Rendering</h2>
+<p>We chose deferred rendering as our base rendering system, which makes it easier to apply post-process effects. It uses four G buffers (Albido, Specular, Normal and Emissive) to store information needed for PBR.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Debug display</th>
+<th>G-buffer structure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/gbuffers.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/gbuffers.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/gbufferstructure.png" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/gbufferstructure.png" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>HDR</h2>
+<p>HDR can represent a greater range of luminance levels than can be achieved using more &#8216;traditional&#8217; methods, such as many real-world scenes containing very bright, direct sunlight to extreme shade, or very faint nebulae.</p>
+<h3>Bloom Effect</h3>
+<p>I have used HDR for creating bloom effect the simplest and effective post-process effect. First, I extracted the very bright region from the scene image, then obtain the desired image contrast through color&#8217;s scale and bias.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Extracted HDR Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/hdr.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/hdr.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>After that, two-pass seperable gaussian blur can be used to obtain the bloom effect. However, typically, using a frame buffer of the same resolution is not large enough to get satisfied the size of the kernel. In order to solve this problem, the size of the blur kernel was increased by applying 1/2 down-sampling for each stage of blur.</p>
+<p>The interesting point is, I&#8217;ve tried both the traditional fragment shader approach and the compute shader (using shared memory), but unlike the expectation, the compute shader version showed a slower performance.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>1/2 horizon blur</th>
+<th>1/4 vertical blur</th>
+<th>1/8 horizon blur</th>
+<th>1/8 vertical blur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/down2.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/down2.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/down4.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/down4.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/down8.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/down8.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/down82.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/down82.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Tone Mapping</h3>
+<p>Tone mapping is the easiest and most effective way to get a more realistic scene. First, I applied a low temperature color(3600K) to give a feeling of dawn. After that, applied RomBinDaHouse Tone Mapping, which was effective in highlighting the contrast of our scene.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Original Color</th>
+<th>Color temperature</th>
+<th>RomBinDaHouse tone mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/normal.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/normal.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/temperature.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/temperature.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/tonemapping.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/tonemapping.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Voxel Global illumination</h2>
+<p>I referred to a paper <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.225.5903&amp;rep=rep1&amp;type=pdf" rel="nofollow">Interactive indirect illumination using voxel cone tracing</a> published in Nvidia, which uses Voxelizied meshes to obtain GI with using cone tracing.</p>
+<h3>Voxelization</h3>
+<p>First, the area of ​​the scene to be voxelized is determined, and the objects contained in the scene are voxelized into triangles. That is, in the geometry shader, an axis providing the widest area when each triangle is projected among the world x, y and z axis is selected using the normal vector of the rectangle, and the projection is performed based on the axis. Then, conservative rasterization is applied to prevent to generate missing voxels. Finally, in the paper, it constructs SVO by creating a fragment list by collecting fragments generated from a fragment shader, but I simply stored information of voxels using 3d texture, which has 512x512x512 resolution.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Voxelized Meshes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx00.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx00.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Mip-Mapping</h3>
+<p>The generated 3d texture should have mip-mapped values ​​step by step for voxel cone tracing. OpenGL supports automatic mipmap generation, but Vulkan is not, so I had to do it manually. To accomplish this, I used a compute shader for each mipmap stage to create a new mipmap by level. But, this process was so slow that dynamic 3d texture mipmapping was not possible in real time. So, I had to get GI by voxelizing from static objects only.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Mip level 0</th>
+<th>Mip level 1</th>
+<th>Mip level 2</th>
+<th>Mip level 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx00.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx00.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx01.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx02.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx02.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx03.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/vx03.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Voxel-Cone tracing</h3>
+<p>Now, to get the GI, we need to do voxel cone tracing on the post process stage. But, real voxel cone tracing is really slow in real-time. So, using with our voxel 3dtextures&#8217; mipmapped values, we can approximate this step with using ray marching with several samples from screen space world position. Depending on its sample distance, we can decide which mipmapped voxel values should be used.</p>
+<p>And, before getting the sample color from the texture, determine whether the voxel is currently obscured by the shadow. Because the voxel in the shadow cannot actually reflect any light. To obtain the diffuse GI, seven voxel cones of 60 degrees were used to cover the hemisphere area.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>GI Only</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/GI.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/GI.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>One of the advantage of using voxel contracing is that we can get ambient occlusion free.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>AO Only</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/AO.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/AO.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Light Only</th>
+<th>Light + AO</th>
+<th>Light + AO + GI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/Lighting.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/Lighting.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/L-AO.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/L-AO.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/L-AO-GI.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Vulkan-VR-FrameWork/img/VXGI/L-AO-GI.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h1>Credits:</h1>
+<ul>
+<li><a href="https://vulkan-tutorial.com/Introduction" rel="nofollow">Vulkan tutorial</a></li>
+<li><a href="https://www.shadertoy.com/view/lslGzl" rel="nofollow">Tone mapping</a></li>
+<li><a href="https://www.shadertoy.com/view/lsSXW1" rel="nofollow">Color Temperature</a></li>
+</ul>
+<h1>Libraries:</h1>
+<ul>
+<li><a href="https://github.com/syoyo/tinyobjloader">tinyobjloader</a></li>
+<li><a href="http://www.glfw.org/" rel="nofollow">GLFW</a></li>
+<li><a href="https://github.com/nothings/stb">stb-image</a></li>
+</ul>
+<h1>Assets:</h1>
+<ul>
+<li><a href="http://artisaverb.info/Cerberus.html" rel="nofollow">Cerberus by Andrew Maximov</a></li>
+</ul>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

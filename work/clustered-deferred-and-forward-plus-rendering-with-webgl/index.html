@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clustered Deferred and Forward Plus Rendering with WebGL — Byumjin Kim</title>
+<meta name="description" content="Github repo
+Overview
+In this project, I have used WebGL to implement Clustered Forward+ and Clustered Deferred renderer.
+Clustered Forward + Rendering &amp; Cluster">
+<meta property="og:title" content="Clustered Deferred and Forward Plus Rendering with WebGL — Byumjin Kim">
+<meta property="og:description" content="Github repo
+Overview
+In this project, I have used WebGL to implement Clustered Forward+ and Clustered Deferred renderer.
+Clustered Forward + Rendering &amp; Cluster">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2017</span>
+    <h1>Clustered Deferred and Forward Plus Rendering with WebGL</h1>
+  </header>
+  <div class="prose">
+<h4><a href="https://github.com/byumjin/Project5-WebGL-Clustered-Deferred-Forward-Plus">Github repo</a></h4>
+<h3>Overview</h3>
+<p>In this project, I have used WebGL to implement Clustered Forward+ and Clustered Deferred renderer.</p>
+<h4>Clustered Forward + Rendering &amp; Clustered deferred Rendering</h4>
+<p><div class="embed"><iframe src="https://www.youtube.com/embed/Wck9Nlaz0s4" width="1280" height="720" frameborder="0" allowfullscreen="allowfullscreen" loading="lazy" allowfullscreen></iframe></div></p>
+<h4>Lensflare Effect</h4>
+<p><div class="embed"><iframe src="https://www.youtube.com/embed/mQs093y-Xtc" width="1280" height="720" frameborder="0" allowfullscreen="allowfullscreen" loading="lazy" allowfullscreen></iframe></div></p>
+<h3>Complete requirements</h3>
+<ul>
+<li>Basic Features
+<ul>
+<li>Clustered Forward+</li>
+<li>Clustered Deferred</li>
+<li>Blinn-Phong shading</li>
+<li>Optimizations using two G- buffers (use total 6 channels)
+<ul>
+<li>Use 2-component normals</li>
+<li>Reconstructing world space position</li>
+<li>Use a screen-filling triangular instead of using quadrilateral</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Additional Features
+<ul>
+<li>Lensflare with Bloom using post-process Gaussian blur</li>
+</ul>
+</li>
+</ul>
+<h4>Clustered Forward+</h4>
+<p>Build a data structure to keep track of how many lights are in each cluster and what their indices are.<br />
+Then, render the scene using only the lights that overlap a given cluster.</p>
+<p>I refered the Avalanche slides&#8217; solution for slicing frustum (Speacial Near).</p>
+<h4>Clustered Deferred</h4>
+<p>Reuse clustering logic from Clustered Forward+.<br />
+Store vertex attributes in g-buffers.<br />
+Read g-buffers in a shader to produce final output.</p>
+<p>I used two G-buffers of which structure like below.</p>
+<p><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/gbuffers.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/gbuffers.webp" alt="" / loading="lazy"></a></p>
+<p>Instead of making vertex position G-buffer, reconstructing world space position with depth can prevent the artifact which happens on the area of screen where nothing be drawn.<br />
+And, also it can save two channels.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>albedo</th>
+<th>normal</th>
+<th>position</th>
+<th>depth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/albedo-buffers.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/albedo-buffers.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/normal-buffers.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/normal-buffers.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/position-buffers.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/position-buffers.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/depth-buffers.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/depth-buffers.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>And, using a screen-filling triangular instead of using quadrilateral reduces overload of rendering.<br />
+I used this only for one post-processing (Lensflare). But, the more post processes be used, the better rendering performance can be gotten.</p>
+<p><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/filling.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/filling.webp" alt="" / loading="lazy"></a></p>
+<h4>Lensflare effect</h4>
+<p>Lens flare refers to a phenomenon wherein light is scattered or flared in a lens system, often in response to a bright light, producing an undesirable effect on the image.<br />
+In order to create this effect, I referred to John chapman’s Lens flare which is not physically-based model.<br />
+Of course, Physically-based Lens flare can generate more accurate effects but it is much expensive.<br />
+To do this, it needs several independent effects ghosts, halo, diffraction created by very bright Scene color.<br />
+And, at the final stage, composite the all effects with dirtmask texture and star burst texture. (below images are designed by me.)</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dirt Mask Texture</th>
+<th>Star Burst Texture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/textures/DirtMask.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/textures/DirtMask.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/textures/StarBurst.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/textures/StarBurst.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Performance Analysis</h3>
+<h4>Forward vs Clustered Forward+ vs Clustered Deferred</h4>
+<p>Resolution : 960 x 540<br />
+Number of Lights : 2500<br />
+Light&#8217;s radius : 3.0<br />
+Cluster Dimension : 16 x 16 x 16</p>
+<p><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/second.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/second.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Forward</th>
+<th>Clustered Forward+</th>
+<th>Clustered Deferred</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ms</td>
+<td>125</td>
+<td>34</td>
+<td>33</td>
+</tr>
+</tbody>
+</table></div>
+<p>Resolution : 1920 x 1080<br />
+Number of Lights : 2500<br />
+Light&#8217;s radius : 3.0<br />
+Cluster Dimension : 16 x 16 x 16</p>
+<p><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/first.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/first.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Forward</th>
+<th>Clustered Forward+</th>
+<th>Clustered Deferred</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ms</td>
+<td>333</td>
+<td>66</td>
+<td>32</td>
+</tr>
+</tbody>
+</table></div>
+<p>The efficient of deferred rendering increases when the scene is drawn on larger screen space.</p>
+<h4>2 Compacted G-buffer vs 4 G-buffer</h4>
+<p>Resolution : 1920 x 1080 Number of Lights : 2500 Light&#8217;s radius : 3.0 Cluster Dimension : 16 x 16 x 16</p>
+<p><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/third.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/third.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>2</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ms</td>
+<td>34</td>
+<td>34</td>
+</tr>
+</tbody>
+</table></div>
+<p>As we can see, the difference of performance between former and later is really tiny.<br />
+I think the time of fetching texels from g-buffers is similar to the time consumed by additional shader codes such as Reconstructing world space position and normal.<br />
+But, obviously, in terms of memory, using 2 Compacted G-buffer can save the memory equivalent to 2 G-buffer textures.</p>
+<h4>Quadrilateral vs Triangular Screen filling</h4>
+<p>Resolution : 1920 x 1080<br />
+Number of Lights : 2500<br />
+Light&#8217;s radius : 3.0<br />
+Cluster Dimension : 16 x 16 x 16<br />
+RenderMode : Clustered Deferred Effect</p>
+<p><a href="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/fourth.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project5-WebGL-Clustered-Deferred-Forward-Plus/img/fourth.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Quadrilateral</th>
+<th>Triangular</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ms</td>
+<td>32</td>
+<td>32</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Credits</h3>
+<ul>
+<li><a href="https://github.com/mrdoob/three.js">Three.js</a> by <a href="https://github.com/mrdoob">@mrdoob</a> and contributors</li>
+<li><a href="https://github.com/mrdoob/stats.js">stats.js</a> by <a href="https://github.com/mrdoob">@mrdoob</a> and contributors</li>
+<li><a href="https://github.com/KhronosGroup/WebGLDeveloperTools">webgl-debug</a> by Khronos Group Inc.</li>
+<li><a href="https://github.com/toji/gl-matrix">glMatrix</a> by <a href="https://github.com/toji">@toji</a> and contributors</li>
+<li><a href="https://github.com/shrekshao/minimal-gltf-loader">minimal-gltf-loader</a> by <a href="https://github.com/shrekshao">@shrekshao</a></li>
+</ul>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

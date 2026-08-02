@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Shrines – Procedural demo scene based on WebGL2 — Byumjin Kim</title>
+<meta name="description" content="CGGT, University of Pennsylvania
+Byumjin Kim, Jiawei Wang
+Apr. 2018
+Git repo
+
+Live Demo
+
+
+
+The Shrines
+
+
+
+
+
+
+
+
+
+Demo Link
+
+Overview
+Me and Jiawei have implement">
+<meta property="og:title" content="The Shrines – Procedural demo scene based on WebGL2 — Byumjin Kim">
+<meta property="og:description" content="CGGT, University of Pennsylvania
+Byumjin Kim, Jiawei Wang
+Apr. 2018
+Git repo
+
+Live Demo
+
+
+
+The Shrines
+
+
+
+
+
+
+
+
+
+Demo Link
+
+Overview
+Me and Jiawei have implement">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2018</span>
+    <h1>The Shrines – Procedural demo scene based on WebGL2</h1>
+  </header>
+  <div class="prose">
+<ul>
+<li>CGGT, University of Pennsylvania</li>
+<li><a href="https://github.com/byumjin">Byumjin Kim</a>, <a href="https://github.com/Jiaww">Jiawei Wang</a></li>
+<li>Apr. 2018</li>
+<li><a href="https://github.com/byumjin/The-Shrines">Git repo</a></li>
+</ul>
+<h2>Live Demo</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>The Shrines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://byumjin.github.io/The-Shrines/" rel="nofollow"><img src="../../assets/img/gh/The-Shrines/imgs/main.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><a href="https://byumjin.github.io/The-Shrines/" rel="nofollow">Demo Link</a></li>
+</ul>
+<h2>Overview</h2>
+<p>Me and Jiawei have implemented WebGL demo with using many procedural methods for the final project of Procedural programming. After watching the WebGL demo <a href="https://playcanv.as/e/p/44MRmJRU/" rel="nofollow">After the Flood</a> (made by PlayCanvas), we want to challenge to make fancy demo scene like that. Most of textures and models in our demo are designed by us. And, we tried to maintain 60 fps on Nvidia GTX 1060 in FHD resolution (1920 x 1080).</p>
+<h2>Pipeline</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Pipeline</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/Pipeline.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/Pipeline.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Features</h2>
+<h3>Deferred Rendering</h3>
+<p>We chose deferred rendering for getting screen space information such as rougness, normal, easily, and used 3 G-buffers (first one is for albedo color and opacity, second one is for specular color and roughness, last one is for normal and emissive). And, we used GGX lighting model for physically-based rendering. For perfection, it needs some methods such as pre-filtered light probe to get global illumination in real-time, we only used screen space reflections.</p>
+<h3>Shadow</h3>
+<p>We used shadow mapping to create dynamic shadows. We chose 2048&#215;2048 texture buffer to store the depth map. To create soft shadow, we tried many methods to realize that, like VSM, PCSS, PCF, etc. Finally, we decided to use <strong>Stratified Poisson-Sampling PCF</strong>. We created soft shadows of static objects(like buildings) and dynamic objects(like trees), and the shadows casted on both opaque objects and tranparent objects(water).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>No Shadow</th>
+<th>With Shadow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/noShadow.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/noShadow.webp" width="400" height="345" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/softShadow.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/softShadow.webp" width="400" height="345" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Hard Shadow</th>
+<th>Soft Shadow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/hardShadow.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/hardShadow.webp" width="400" height="345" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/softShadow2.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/softShadow2.webp" width="400" height="345" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Moving Trees</h3>
+<p>To render the trees with animation, we need to modify the vertex positions according to time in vertex shader(vertex animation). So we could no longer to use the same vertex shader as other static objects. Here we used 2 other different shaders for the barks and leaves in <em>RenderToGBuffer</em> pass. To create the animation of the trees, we followed the instructions of <a href="https://developer.nvidia.com/gpugems/GPUGems3/gpugems3_ch16.html" rel="nofollow">Vegetation Procedural Animation and Shading in Crysis</a>. We used three channels of the vertex color to represent three different kinds of movement of the leaves, the red channel is used for the stiffness of leaves&#8217; edges, the green channel for per-leaf phase variation, and the blue channel for the overall stiffness of the leaves. The only problem was that the .obj file cannot store the vertex color information, and we were using TypeScript for the development, so we cannot use fbxLoader tools of three.js. Finally, we stored the vertex colors in another format of file, .ply. When loading models of tree, we both loaded .obj files for positions, normals, texcoords and .ply files for colors.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tree Rendering</th>
+<th>Vertex Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/tree.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/The-Shrines/imgs/tree.mp4" autoplay loop muted playsinline preload="metadata"></video></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/tree_color.JPG" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/tree_color.JPG" width="450" height="400" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Translucent Material</h3>
+<p>To add translucent material, we needed to use additional depth buffer only for it and compare with G-buffer&#8217;s depth buffer. The reason why we could not use G-buffer&#8217;s depth buffer is for blending between the result of translucent rendering and opaque rendering. And, to present real translucent, the ordering problem should be addressed. But, we just used one layer translucent for simplicity.</p>
+<h4>Water</h4>
+<p>For making wavy water, we used noise map which has 3 noise channels like perlin and worley and blend them with different time seed instead of using normal map. And, our water material compares the depth between opaque and water for changable blending effects along the distance between them.</p>
+<h3>Screen Space Reflections</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>SSR Off</th>
+<th>SSR On</th>
+<th>SSR Off</th>
+<th>SSR On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/SSR_Off01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/SSR_Off01.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/SSR_On01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/SSR_On01.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/SSR_Off02.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/SSR_Off02.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/SSR_On02.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/SSR_On02.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>To obtain dynamic global illumination, we referred to <a href="http://advances.realtimerendering.com/s2014/valient/Valient_Siggraph14_Killzone.pptx" rel="nofollow">Reflection and volumetrics of Killzone Shadow Fall</a> for our screen space reflections. It uses simple linear interpolation to complement the artifacts caused by overshooting ray. And, as using previous frame instead of current frame, we could get secondary reflections and even reflections of particle. And we realized that even if we are super large step size of water material, it is difficult to recognize its artifacts. So, our demo can reflect the original scene image even when the camera sees the scene from far away.</p>
+<h3>GPU particles</h3>
+<p>We used feedback transformation to generate thousands particles with lower cost. Unexpectedly, feedback transformation is slower than the method using texture to create a bunch of particles (over 1 million). This is caused by the fact that the cost will increase significantly as feedback transformation&#8217;s buffer size increases. This is because the array retrieving time increases as the index of the array element increases. But, it is true that, in terms of management, feedback transformation is more comfortable than texture particles because it does not need fragment shader stage. We made our particles with billboard quad or object&#8217;s mesh itself. To reduce disharmony, we blended our particles from original scene image with scene depth.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Clouds</th>
+<th>Boats</th>
+<th>Lanterns</th>
+<th>Rain</th>
+<th>Snow</th>
+<th>Flowers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/p_clouds.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/p_clouds.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/boats.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/boats.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/lantern.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/lantern.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/rain.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/rain.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/snow.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/snow.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/flowers.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/flowers.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h4>Clouds</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Clouds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/Clouds.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/Clouds.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>We also used similar noise map like those of water to make the clouds spread. And, to make them like volumetric clouds, normal map is used for lighting. Unlike usual lambertian shading, we used smoothstep of absolute value of N dot L with 0.2 as minimal value. This prevents to make clouds to be balck and brighter when the clouds&#8217; billborad faces sun light.</p>
+<h3>Procedural Roads</h3>
+<p>We used L-System to generate the diffrent roads, and there are multiple base geometries for the roads and the connection corners, which are randomly generated during every reloading of the scene.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Random 1</th>
+<th>Random 2</th>
+<th>Random 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/LRoad1.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/LRoad1.webp" width="300" height="180" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/LRoad2.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/LRoad2.webp" width="300" height="180" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/LRoad3.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/LRoad3.webp" width="300" height="180" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>HDR</h3>
+<h4>Bloom</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Bloom</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/Bloom.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/Bloom.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>For this, we have used down-sampled( divide by 8 ) scene texture which has high light of scene image before post-process phases for performance optimization and to get a better quality result. To blur image, Gaussian blurring method is used at two passes with mipmaps (The first pass is for Horizontal Blurring, and the second pass is for Vertical Blurring). And, like alien isolation&#8217;s bloom effect, we set longer steps to strectch blurring effect, horizontally.</p>
+<h4>Lens Flare</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Lens Flare</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/LensFlare.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/LensFlare.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>Using same high light scene image as Bloom, we could create ghost effects with distortion and repeatation by center of screen. For better quality, Gaussian blurring is also used. We referred to <a href="http://john-chapman-graphics.blogspot.com/2013/02/pseudo-lens-flare.html" rel="nofollow">John chapman’s Lens flare</a> which is not physically correct.</p>
+<h3>Tone Map</h3>
+<p>We used flimic tone mapping referred to <a href="https://www.shadertoy.com/view/lslGzl" rel="nofollow">here</a></p>
+<h3>Post-Process in Single Screen Triangular</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Frost</th>
+<th>Rainy</th>
+<th>Fire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/frost.JPG" target="_blank" rel="noopener"><img src="../../assets/img/gh/The-Shrines/imgs/frost.JPG" width="300" height="150" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/rain.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/The-Shrines/imgs/rain.mp4" autoplay loop muted playsinline preload="metadata"></video></a></td>
+<td><a href="../../assets/img/gh/The-Shrines/imgs/fire.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/The-Shrines/imgs/fire.mp4" autoplay loop muted playsinline preload="metadata"></video></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>We implemented 3 post-process effects for Ice Shrine, Water Shrine and Fire Shrine.</p>
+<ul>
+<li>Frost Effect: set the uv offsets based on the computation with a noise image. <a href="https://www.shadertoy.com/view/MsySzy" rel="nofollow">frosted glass vignette</a></li>
+<li>RainDrops Effect: manipulate with the uv offsets to create the water drops effect, mainly following the reference <a href="https://www.shadertoy.com/view/ltffzl" rel="nofollow">Heartfelt</a>. Also use the Gaussian Blur to create the blurry parts and the tracks of the water.</li>
+<li>Fire Effect: blend the fire effect with the render result of the scene and then add a haze effect.</li>
+</ul>
+<h2>Reference</h2>
+<ul>
+<li><a href="http://advances.realtimerendering.com/s2014/valient/Valient_Siggraph14_Killzone.pptx" rel="nofollow">Reflection and volumetrics of Killzone Shadow Fall</a></li>
+<li><a href="http://john-chapman-graphics.blogspot.com/2013/02/pseudo-lens-flare.html" rel="nofollow">John chapman’s Lens flare</a></li>
+<li><a href="https://www.shadertoy.com/view/lslGzl" rel="nofollow">Tone map</a></li>
+<li><a href="http://developer.download.nvidia.com/presentations/2008/GDC/GDC08_SoftShadowMapping.pdf" rel="nofollow">Advanced Soft Shadow Mapping</a></li>
+</ul>
+<h2>Music</h2>
+<ul>
+<li>idealism &#8211; another perspective</li>
+</ul>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

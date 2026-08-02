@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Light Bloom — Byumjin Kim</title>
+<meta name="description" content="Cerberus modeled by Andrew Maximov
+
+Light Bloom (sometimes referred to as light bloom or glow) is a computer graphics effect used in video games, demos, and hig">
+<meta property="og:title" content="Light Bloom — Byumjin Kim">
+<meta property="og:description" content="Cerberus modeled by Andrew Maximov
+
+Light Bloom (sometimes referred to as light bloom or glow) is a computer graphics effect used in video games, demos, and hig">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2016</span>
+    <h1>Light Bloom</h1>
+  </header>
+  <div class="prose">
+<p><a href="../../assets/img/uploads/2017/03/bloom2.webp"><img class="alignnone size-full wp-image-710" src="../../assets/img/uploads/2017/03/bloom2.webp" alt="" width="868" height="544" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom2.png 868w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom2-300x188.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom2-768x481.png 768w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom2-690x432.png 690w" sizes="(max-width: 868px) 100vw, 868px" / loading="lazy"></a></p>
+<p>Cerberus modeled by Andrew Maximov</p>
+
+<p><b>Light Bloom</b> (sometimes referred to as <b>light bloom</b> or glow) is a computer graphics effect used in video games, demos, and high dynamic range rendering (HDRR) to reproduce an imaging artifact of real-world cameras. For this, I have used down-sampled( half ) scene texture which has scene image before post-process phases for performance optimization and to get a better quality result.</p>
+<p>To blur image, Gaussian blurring method is used at two passes with mipmaps. (The first pass is for Horizontal Blurring and, the second pass is for Vertical Blurring)</p>
+<p><img class="alignnone size-full wp-image-722" src="../../assets/img/uploads/2017/03/Image13-Bluring.webp" alt="" width="570" height="584" / loading="lazy"></p>
+<p>HDDR for Light Bloom Horizontal Blurring (1st blurring)</p>
+<p><a href="../../assets/img/uploads/2017/03/bloom4.webp"><img class="wp-image-712 alignnone" src="../../assets/img/uploads/2017/03/bloom4.webp" alt="" width="400" height="251" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom4.png 868w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom4-300x188.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom4-768x481.png 768w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom4-690x432.png 690w" sizes="(max-width: 400px) 100vw, 400px" / loading="lazy"></a><a href="../../assets/img/uploads/2017/03/bloom.webp"><img class="wp-image-711 alignnone" src="../../assets/img/uploads/2017/03/bloom3.webp" alt="" width="400" height="251" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom3.png 868w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom3-300x188.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom3-768x481.png 768w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom3-690x432.png 690w" sizes="(max-width: 400px) 100vw, 400px" / loading="lazy"></a></p>
+<p>Vertical Blurring (2nd blurring) Result</p>
+<p><a href="../../assets/img/uploads/2017/03/bloom.webp"><img class="wp-image-709 alignnone" src="../../assets/img/uploads/2017/03/bloom.webp" alt="" width="400" height="251" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom.png 868w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom-300x188.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom-768x481.png 768w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom-690x432.png 690w" sizes="(max-width: 400px) 100vw, 400px" / loading="lazy"></a> <a href="../../assets/img/uploads/2017/03/bloom2.webp"><img class="alignnone wp-image-710" src="../../assets/img/uploads/2017/03/bloom2.webp" alt="" width="400" height="251" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom2.png 868w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom2-300x188.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom2-768x481.png 768w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/03/bloom2-690x432.png 690w" sizes="(max-width: 400px) 100vw, 400px" / loading="lazy"></a></p>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

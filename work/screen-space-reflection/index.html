@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen Space Reflection — Byumjin Kim</title>
+<meta name="description" content="Screen Space Reflection(SSR) is also Known as Real-time local reflection. After I saw Screen Space Reflection in the KILLZONE’s demo video, I decided to apply i">
+<meta property="og:title" content="Screen Space Reflection — Byumjin Kim">
+<meta property="og:description" content="Screen Space Reflection(SSR) is also Known as Real-time local reflection. After I saw Screen Space Reflection in the KILLZONE’s demo video, I decided to apply i">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2014</span>
+    <h1>Screen Space Reflection</h1>
+  </header>
+  <div class="prose">
+
+<p><a href="../../assets/img/uploads/2015/02/ssr1.webp"><img class="alignnone wp-image-98 size-large" src="../../assets/img/uploads/2015/02/ssr1-1024x661.webp" alt="ssr1" width="960" height="680" / loading="lazy"></a></p>
+<p>Screen Space Reflection(SSR) is also Known as Real-time local reflection. After I saw Screen Space Reflection in the KILLZONE’s demo video, I decided to apply it to UE3 as post-process effect.</p>
+<p>I referenced presentation of KILLZONE and Crytek Engine3.</p>
+<p><div class="embed"><iframe src="https://www.youtube.com/embed/rJF4wSiSvq8" width="800" height="450" frameborder="0" allowfullscreen="allowfullscreen" loading="lazy" allowfullscreen></iframe></div></p>
+<p>I had to write uc, cpp and usf files for SSR because it was not enough to implement some techniques such as getting screen world position information, Gbuffer for roughness.</p>
+<p>To represent roughness, I used 5 downsampled textures derived by an origin texture.</p>
+<p><a href="../../assets/img/uploads/2015/11/img-9b63efed7a.webp" rel="attachment wp-att-388"><img class="alignnone size-full wp-image-388" src="../../assets/img/uploads/2015/11/img-9b63efed7a.webp" alt="그림1" width="1236" height="169" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/11/그림1.png 1236w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/11/그림1-300x41.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/11/그림1-768x105.png 768w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/11/그림1-1024x140.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/11/그림1-690x94.png 690w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/11/그림1-980x134.png 980w" sizes="(max-width: 1236px) 100vw, 1236px" / loading="lazy"></a></p>
+<p>Of course, Its blur effection is changed with along the roughness in material.</p>
+<p>For an easy accessibility, I added SSR as an independent module in post-process.</p>
+<p><a href="../../assets/img/uploads/2015/11/img-e697d4b9a6.webp" rel="attachment wp-att-389"><img class="alignnone size-full wp-image-389" src="../../assets/img/uploads/2015/11/img-e697d4b9a6.webp" alt="그림2" width="574" height="223" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/11/그림2.png 574w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/11/그림2-300x117.png 300w" sizes="(max-width: 574px) 100vw, 574px" / loading="lazy"></a><a href="../../assets/img/uploads/2015/11/img-d6e3f72d19.webp" rel="attachment wp-att-390"><img class="alignnone size-full wp-image-390" src="../../assets/img/uploads/2015/11/img-d6e3f72d19.webp" alt="그림3" width="267" height="223" / loading="lazy"></a></p>
+<p><a href="../../assets/img/uploads/2015/02/ssr2.webp"><img class="alignnone wp-image-99 size-large" src="../../assets/img/uploads/2015/02/ssr2-1024x580.webp" alt="ssr2" width="660" height="374" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr2-1024x580.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr2-300x170.png 300w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a><a href="../../assets/img/uploads/2015/02/ssr11.webp"><img class="alignnone wp-image-96 size-large" src="../../assets/img/uploads/2015/02/ssr11-1024x580.webp" alt="ssr11" width="660" height="374" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr11-1024x580.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr11-300x170.png 300w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a> <a href="../../assets/img/uploads/2015/02/ssr12.webp"><img class="alignnone wp-image-97 size-large" src="../../assets/img/uploads/2015/02/ssr12-1024x580.webp" alt="ssr12" width="660" height="374" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr12-1024x580.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr12-300x170.png 300w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a></p>
+
+<p><a href="../../assets/img/uploads/2015/02/ssr4.webp"><img class="alignnone wp-image-101 size-large" src="../../assets/img/uploads/2015/02/ssr4-1024x599.webp" alt="ssr4" width="660" height="386" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr4-1024x599.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr4-300x176.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr4.png 1179w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a> <a href="../../assets/img/uploads/2015/02/ssr5.webp"><img class="alignnone wp-image-102 size-large" src="../../assets/img/uploads/2015/02/ssr5-1024x599.webp" alt="ssr5" width="660" height="386" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr5-1024x599.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr5-300x176.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr5.png 1179w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a> <a href="../../assets/img/uploads/2015/02/ssr6.webp"><img class="alignnone wp-image-103 size-large" src="../../assets/img/uploads/2015/02/ssr6-1024x580.webp" alt="ssr6" width="660" height="374" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr6-1024x580.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr6-300x170.png 300w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a></p>
+<p>&lt;Self reflection&gt;</p>
+
+<p><a href="../../assets/img/uploads/2015/02/ssr7.webp"><img class="alignnone wp-image-104 size-large" src="../../assets/img/uploads/2015/02/ssr7-1024x580.webp" alt="ssr7" width="660" height="374" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr7-1024x580.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr7-300x170.png 300w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a> <a href="../../assets/img/uploads/2015/02/ssr8.webp"><img class="alignnone wp-image-105 size-large" src="../../assets/img/uploads/2015/02/ssr8-1024x580.webp" alt="ssr8" width="660" height="374" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr8-1024x580.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr8-300x170.png 300w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a> <a href="../../assets/img/uploads/2015/02/ssr9.webp"><img class="alignnone wp-image-106 size-large" src="../../assets/img/uploads/2015/02/ssr9-1024x580.webp" alt="ssr9" width="660" height="374" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr9-1024x580.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr9-300x170.png 300w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a> <a href="../../assets/img/uploads/2015/02/ssr10.webp"><img class="alignnone wp-image-107 size-large" src="../../assets/img/uploads/2015/02/ssr10-1024x580.webp" alt="ssr10" width="660" height="374" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr10-1024x580.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/ssr10-300x170.png 300w" sizes="(max-width: 660px) 100vw, 660px" / loading="lazy"></a></p>
+<p>&lt;Reflection with shadow&gt;</p>
+
+<p><strong>Releated</strong><br />
+<ul class="lcp_catlist" id="lcp_instance_0"><li ><a href="#" title="Ephemeris">Ephemeris</a> </li><li ><a href="#" title="Volumetric Clouds">Volumetric Clouds</a> </li><li ><a href="#" title="HDR: HDR10 and Dolby Vision">HDR: HDR10 and Dolby Vision</a> </li><li ><a href="#" title="Shader Translator">Shader Translator</a> </li><li ><a href="#" title="The Shrines &#8211; Procedural demo scene based on WebGL2">The Shrines &#8211; Procedural demo scene based on WebGL2</a> </li><li ><a href="#" title="Thesis &#8211; Implementation of Optimized pixel-projected reflections for Planar reflectors">Thesis &#8211; Implementation of Optimized pixel-projected reflections for Planar reflectors</a> </li><li ><a href="#" title="GPU particle system">GPU particle system</a> </li><li ><a href="#" title="Raymarching againt SDFs">Raymarching againt SDFs</a> </li><li ><a href="#" title="Voxel Global Illunimination">Voxel Global Illunimination</a> </li></ul></p>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

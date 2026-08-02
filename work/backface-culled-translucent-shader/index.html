@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backface Culled Translucent Shader — Byumjin Kim</title>
+<meta name="description" content="In old version UE3, It provided only simple translucent draw method. Its sorting issue is always trouble for rendering the translucent objects.
+For this reason,">
+<meta property="og:title" content="Backface Culled Translucent Shader — Byumjin Kim">
+<meta property="og:description" content="In old version UE3, It provided only simple translucent draw method. Its sorting issue is always trouble for rendering the translucent objects.
+For this reason,">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2014</span>
+    <h1>Backface Culled Translucent Shader</h1>
+  </header>
+  <div class="prose">
+<p><a href="../../assets/img/uploads/2015/02/2.webp"><img class=" size-medium wp-image-113 alignnone" src="../../assets/img/uploads/2015/02/2-259x300.webp" alt="2" width="259" height="300" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/2-259x300.png 259w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/2-885x1024.png 885w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/2.png 902w" sizes="(max-width: 259px) 100vw, 259px" / loading="lazy"></a></p>
+<p>In old version UE3, It provided only simple translucent draw method. Its sorting issue is always trouble for rendering the translucent objects.</p>
+<p>For this reason, I added two functions in UE3. First is CulledTranslucent of which mesh’s backface is culled. It is useful to represent the hide effect such as rogue’s skill.</p>
+<p><div class="embed"><iframe src="https://www.youtube.com/embed/9EyCBNgHdSc" width="800" height="450" frameborder="0" allowfullscreen="allowfullscreen" loading="lazy" allowfullscreen></iframe></div></p>
+<p>Second is CulledTranslucentForBackgroundObject (CTFBO) which is culled by each translucent object with this option. It is useful to secure the Tanker’s view while they’re tanking in MMORPG.</p>
+<p>I inserted these as check buttons in material editor for artists</p>
+<p><div class="embed"><iframe src="https://www.youtube.com/embed/mk0tFcDCwkE" width="800" height="450" frameborder="0" allowfullscreen="allowfullscreen" loading="lazy" allowfullscreen></iframe></div></p>
+<p>below things are comparison images of translucent objects.</p>
+<p><img class="alignnone wp-image-117 " src="../../assets/img/uploads/2015/02/11-1024x558.webp" alt="1" width="451" height="246" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/11-1024x558.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/11-300x163.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/11.png 1054w" sizes="(max-width: 451px) 100vw, 451px" / loading="lazy"><a href="../../assets/img/uploads/2015/02/41.webp"><img class="alignnone wp-image-120 size-large" src="../../assets/img/uploads/2015/02/41-1024x558.webp" alt="4" width="451" height="246" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/41-1024x558.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/41-300x163.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/41.png 1054w" sizes="(max-width: 451px) 100vw, 451px" / loading="lazy"></a></p>
+<p>&lt;Normal Translucent&gt;</p>
+
+<p><a href="../../assets/img/uploads/2015/02/21.webp"><img class="alignnone wp-image-118 size-large" src="../../assets/img/uploads/2015/02/21-1024x558.webp" alt="2" width="451" height="246" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/21-1024x558.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/21-300x163.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/21.png 1054w" sizes="(max-width: 451px) 100vw, 451px" / loading="lazy"></a><a href="../../assets/img/uploads/2015/02/5.webp"><img class="alignnone wp-image-121 size-large" src="../../assets/img/uploads/2015/02/5-1024x558.webp" alt="5" width="451" height="246" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/5-1024x558.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/5-300x163.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/5.png 1054w" sizes="(max-width: 451px) 100vw, 451px" / loading="lazy"></a></p>
+<p>&lt;Culled Translucent&gt;</p>
+
+<p><a href="../../assets/img/uploads/2015/02/31.webp"><img class="alignnone wp-image-119 size-large" src="../../assets/img/uploads/2015/02/31-1024x558.webp" alt="3" width="451" height="246" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/31-1024x558.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/31-300x163.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2015/02/31.png 1054w" sizes="(max-width: 451px) 100vw, 451px" / loading="lazy"></a><a href="../../assets/img/uploads/2015/02/6.webp"><img class="alignnone wp-image-122" src="../../assets/img/uploads/2015/02/6.webp" alt="6" width="451" height="246" / loading="lazy"></a></p>
+<p>&lt;Culled Translucent For Backgoround Object&gt;<br />
+<strong>Releated</strong><br />
+<ul class="lcp_catlist" id="lcp_instance_0"><li ><a href="#" title="Ephemeris">Ephemeris</a> </li><li ><a href="#" title="Volumetric Clouds">Volumetric Clouds</a> </li><li ><a href="#" title="HDR: HDR10 and Dolby Vision">HDR: HDR10 and Dolby Vision</a> </li><li ><a href="#" title="Shader Translator">Shader Translator</a> </li><li ><a href="#" title="The Shrines &#8211; Procedural demo scene based on WebGL2">The Shrines &#8211; Procedural demo scene based on WebGL2</a> </li><li ><a href="#" title="Thesis &#8211; Implementation of Optimized pixel-projected reflections for Planar reflectors">Thesis &#8211; Implementation of Optimized pixel-projected reflections for Planar reflectors</a> </li><li ><a href="#" title="GPU particle system">GPU particle system</a> </li><li ><a href="#" title="Raymarching againt SDFs">Raymarching againt SDFs</a> </li><li ><a href="#" title="Voxel Global Illunimination">Voxel Global Illunimination</a> </li></ul></p>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

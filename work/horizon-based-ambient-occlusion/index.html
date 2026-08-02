@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Horizon-Based Ambient Occlusion — Byumjin Kim</title>
+<meta name="description" content="Ambient occlusion is a shading and rendering technique used to calculate how exposed each point in a scene is to ambient lighting. For example, the interior of ">
+<meta property="og:title" content="Horizon-Based Ambient Occlusion — Byumjin Kim">
+<meta property="og:description" content="Ambient occlusion is a shading and rendering technique used to calculate how exposed each point in a scene is to ambient lighting. For example, the interior of ">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2017</span>
+    <h1>Horizon-Based Ambient Occlusion</h1>
+  </header>
+  <div class="prose">
+<p>Ambient occlusion is a shading and rendering technique used to calculate how exposed each point in a scene is to ambient lighting. For example, the interior of a tube is typically more occluded (and hence darker) than the exposed outer surfaces, and the deeper you go inside the tube, the more occluded (and darker) the lighting becomes. At the 2008 SIGGRAPH tech conference NVIDIA introduced an upgraded SSAO variant called <a href="http://www.nvidia.com/object/siggraph-2008-HBAO.html" target="_blank" rel="noopener">Horizon Based Ambient Occlusion</a> (HBAO).</p>
+<p>Unlike previous SSAO variants, HBAO uses a physically-based algorithm that approximates an integral with depth buffer sampling. In other words, the upgrade enables HBAO to generate higher-quality SSAO whilst increasing the definition, quality, and visibility of the AO shadowing.</p>
+<p>Unfortunately, rendering HBAO at reduced resolutions inevitably causes flickering that is challenging to hide in all situations. And, reconstructed normal from depth causes the discontinuous normal on edge.<a href="../../assets/img/uploads/2017/07/ao2.webp"><img class="wp-image-786 aligncenter" src="../../assets/img/uploads/2017/07/ao2.webp" alt="" width="686" height="351" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/07/ao2.png 1916w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/07/ao2-300x153.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/07/ao2-768x393.png 768w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/07/ao2-1024x524.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/07/ao2-690x353.png 690w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2017/07/ao2-980x501.png 980w" sizes="(max-width: 686px) 100vw, 686px" / loading="lazy"></a></p>
+<p style="text-align: center;">&lt;Discontinuous normal on edge&gt;</p>
+<p>The solution is taking 5 depth samples for normal reconstruction. They are positioned like a cross. The center sample is the pixel you&#8217;re currently rendering and you sample the pixel above, left, right and below that center sample. Then for normal reconstruction you simply take the closest Y sample (either the one above or below the center sample) and the closest X sample (either the one left or right of the center sample) relative to the center sample.</p>
+<p><a href="../../assets/img/uploads/2017/07/112.webp"><img class="aligncenter size-full wp-image-848" src="../../assets/img/uploads/2017/07/112.webp" alt="" width="1920" height="984" / loading="lazy"></a></p>
+<p style="text-align: center;">&lt;HBAO&gt;</p>
+<p><a href="../../assets/img/uploads/2017/07/111.webp"><img class="aligncenter size-full wp-image-847" src="../../assets/img/uploads/2017/07/111.webp" alt="" width="1920" height="984" / loading="lazy"></a></p>
+<p style="text-align: center;">&lt;HBAO + Scene&gt;</p>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

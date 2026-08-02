@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shader Translator — Byumjin Kim</title>
+<meta name="description" content="Link: http://confettishadertranslator.azurewebsites.net/
+
+This project, Confetti Shader Translator, was started from a question that “Is there a way to create s">
+<meta property="og:title" content="Shader Translator — Byumjin Kim">
+<meta property="og:description" content="Link: http://confettishadertranslator.azurewebsites.net/
+
+This project, Confetti Shader Translator, was started from a question that “Is there a way to create s">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2018</span>
+    <h1>Shader Translator</h1>
+  </header>
+  <div class="prose">
+<p><a href="../../assets/img/uploads/2019/01/img-ed564b7374.webp"><img class="aligncenter size-full wp-image-1011" src="../../assets/img/uploads/2019/01/img-ed564b7374.webp" alt="" width="1920" height="1080" srcset="http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2019/01/캡처_2019_01_27_20_01_55_130.png 1920w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2019/01/캡처_2019_01_27_20_01_55_130-300x169.png 300w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2019/01/캡처_2019_01_27_20_01_55_130-768x432.png 768w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2019/01/캡처_2019_01_27_20_01_55_130-1024x576.png 1024w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2019/01/캡처_2019_01_27_20_01_55_130-690x388.png 690w, http://knuckles3000.phps.kr/wordpress/wp-content/uploads/2019/01/캡처_2019_01_27_20_01_55_130-980x551.png 980w" sizes="(max-width: 1920px) 100vw, 1920px" / loading="lazy"></a></p>
+<p>Link: <a href="http://confettishadertranslator.azurewebsites.net/">http://confettishadertranslator.azurewebsites.net/</a></p>
+
+<p>This project, Confetti Shader Translator, was started from a question that &#8220;Is there a way to create shaders from one shader language for various platform. The most common way to this would be using Microsoft&#8217;s DirectX Compiler to translate HLSL shader to SPIR-V.</p>
+<p>But I also wanted to resolve a few issues below:</p>
+<ul>
+<li>The translated shaders should have same pre-processors from the original shader</li>
+<li>It can be expanded for using custom shader language in the future</li>
+</ul>
+<p>To handle this, I determined to expand a reference project <a href="https://github.com/byumjin/hlslparser">HLSLParser</a> because, first, I don&#8217;t need to make everything from scratch, second, it seems to be able to be expanded for custom shader language because it makes a tree structure, which is more maintainable to modify it, from the original shader language (HLSL).</p>
+<p>But <a href="https://github.com/byumjin/hlslparser">HLSLParser</a> had a lot of limitations. It didn&#8217;t support the latest version of HLSL, GLSL, and MSL. And, there were a lot of missing syntax such as if-else statement, loop statement, and etc. Overall, the most difficult part was to support pre-processors.</p>
+<p>So, I modified the parser to support the features already mentioned before and added the corresponding features for each shader languages (HLSL, GLSL, and MSL).</p>
+<p>And, for accessibility, I made our shader translator as a web-site because the user can use this tool without concern of using any specific platform.</p>
+<p>Now, it supports HLSL, GLSL, and MSL. In near future, it will also support PS4 and Nintendo switch&#8217;s shader languages.</p>
+
+<h3>References</h3>
+<ul>
+<li><a href="https://github.com/byumjin/hlslparser">HLSLParser</a></li>
+<li><a href="https://github.com/tgjones/shader-playground">Shader Playground</a></li>
+</ul>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

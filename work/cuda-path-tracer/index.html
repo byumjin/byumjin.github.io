@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CUDA Path Tracer — Byumjin Kim</title>
+<meta name="description" content="Github repo
+Representive Scene
+
+
+Scene file : Chromie.txt
+Resolution : 1024 x 1024
+Iteration : 5000
+
+
+Physically-based BRDF shading
+Texture mapping
+Infinite are">
+<meta property="og:title" content="CUDA Path Tracer — Byumjin Kim">
+<meta property="og:description" content="Github repo
+Representive Scene
+
+
+Scene file : Chromie.txt
+Resolution : 1024 x 1024
+Iteration : 5000
+
+
+Physically-based BRDF shading
+Texture mapping
+Infinite are">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2017</span>
+    <h1>CUDA Path Tracer</h1>
+  </header>
+  <div class="prose">
+<p><a href="https://github.com/byumjin/Project3-CUDA-Path-Tracer">Github repo</a></p>
+<h3>Representive Scene</h3>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/Chronormu.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/Chronormu.webp" alt="" / loading="lazy"></a></p>
+<ul>
+<li>Scene file : Chromie.txt</li>
+<li>Resolution : 1024 x 1024</li>
+<li>Iteration : 5000</li>
+</ul>
+<ul>
+<li>Physically-based BRDF shading</li>
+<li>Texture mapping</li>
+<li>Infinite area light</li>
+<li>Depth of field</li>
+</ul>
+<h3>Overview</h3>
+<p>In this project, I have implemented a CUDA-based path tracer capable of rendering globally-illuminated images very quickly.</p>
+<h3>Complete requirements</h3>
+<ul>
+<li>Part 1: Core Features
+<ul>
+<li>Ideal Diffuse</li>
+<li>Perfectly specular-reflective</li>
+<li>Path continuation/termination</li>
+<li>contiguous in memory by material type</li>
+<li>cache the first bounce intersections</li>
+</ul>
+</li>
+<li>Part 2: Make Your Pathtracer Unique!
+<ul>
+<li>Work-efficient stream compaction</li>
+<li>Refraction with Frensel effects</li>
+<li>Physically-based depth-of-field</li>
+<li>Antialiasing</li>
+<li>Texture mapping and Bump mapping</li>
+<li>Arbitrary mesh loading and rendering with toggleable bounding volume intersection culling</li>
+</ul>
+</li>
+<li>Part 3: Independent features
+<ul>
+<li>Physically-based BRDF shading</li>
+<li>Infinite area light (sky hemisphere light)</li>
+</ul>
+</li>
+</ul>
+<h3>Descriptions</h3>
+<h1>Ideal Diffuse</h1>
+<p>When the user sets the material&#8217;s REFL value to 0.0, Ideal diffuse material is rendered.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/diffuse.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/diffuse.webp" alt="" / loading="lazy"></a></p>
+<ul>
+<li>Scene file : cornellDiffuse.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 5000</li>
+</ul>
+<h1>Perfectly specular-reflective</h1>
+<p>When the user sets the material&#8217;s REFL value to 1.0, mirrored material is rendered.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/1x.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/1x.webp" alt="" / loading="lazy"></a></p>
+<ul>
+<li>Scene file : cornell.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 5000</li>
+</ul>
+<h1>Path continuation/termination and</h1>
+<p>When the user sets USE_STREAM_COMPACTION (in pathtrace.cu) value to 1, it makes decision whether pathes keep going or terminating with using scan.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/scd.png" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/scd.png" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Max depth</th>
+<th align="left">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">14</th>
+<th align="center">15</th>
+<th align="center">16</th>
+<th align="center">17</th>
+<th align="right">18</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normal</td>
+<td align="left">6215</td>
+<td align="center">6881</td>
+<td align="center">7449</td>
+<td align="center">8119</td>
+<td align="center">8706</td>
+<td align="center">9376</td>
+<td align="center">9966</td>
+<td align="center">10562</td>
+<td align="center">11215</td>
+<td align="center">11926</td>
+<td align="right">12466</td>
+</tr>
+<tr>
+<td>Stream Compaction</td>
+<td align="left">5415</td>
+<td align="center">5610</td>
+<td align="center">5873</td>
+<td align="center">6294</td>
+<td align="center">6657</td>
+<td align="center">6869</td>
+<td align="center">7343</td>
+<td align="center">7126</td>
+<td align="center">7370</td>
+<td align="center">7656</td>
+<td align="right">7800</td>
+</tr>
+</tbody>
+</table></div>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/open.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/open.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Max depth</th>
+<th align="left">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">14</th>
+<th align="center">15</th>
+<th align="center">16</th>
+<th align="center">17</th>
+<th align="right">18</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Opened</td>
+<td align="left">5415</td>
+<td align="center">5610</td>
+<td align="center">5873</td>
+<td align="center">6294</td>
+<td align="center">6657</td>
+<td align="center">6869</td>
+<td align="center">7343</td>
+<td align="center">7126</td>
+<td align="center">7370</td>
+<td align="center">7656</td>
+<td align="right">7800</td>
+</tr>
+<tr>
+<td>Closed</td>
+<td align="left">8849</td>
+<td align="center">9464</td>
+<td align="center">10860</td>
+<td align="center">11367</td>
+<td align="center">11826</td>
+<td align="center">13037</td>
+<td align="center">12886</td>
+<td align="center">12876</td>
+<td align="center">14148</td>
+<td align="center">15049</td>
+<td align="right">14543</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Test scene file : Cornell.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 100</li>
+</ul>
+<h1>Cache for the first bounce intersections</h1>
+<p>When the user sets USE_CACHE_PATH (in pathtrace.cu) value to 1, it makes cache the first bounce intersections.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/sc.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/sc.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th align="left">Normal</th>
+<th align="center">Cache</th>
+<th align="center">Stream Compaction</th>
+<th align="right">Cache + Stream Compaction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ms</td>
+<td align="left">13583</td>
+<td align="center">13511</td>
+<td align="center">8203</td>
+<td align="right">8034</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Test scene file : Cornell.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 100</li>
+</ul>
+<p>As expected, cache and stream compaction make increase the perfomance. An interesting point is when cache is activate while stream compaction is also activate, it makes synergy to boost the performance. It seems, when the number of alive rays decrease, cache&#8217;s efficient also increases.</p>
+<h1>Contiguous in memory by material type</h1>
+<p>When the user sets USE_RADIX_SORT (in pathtrace.cu) value to 1, it makes rays/pathSegments/intersections contiguous in memory by material type.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/mat.png" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/mat.png" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th align="left">Normal</th>
+<th align="center">Cache</th>
+<th align="center">Stream Compaction</th>
+<th align="center">Cache + Stream Compaction</th>
+<th align="right">Material Sorting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ms</td>
+<td align="left">13583</td>
+<td align="center">13511</td>
+<td align="center">8203</td>
+<td align="center">8034</td>
+<td align="right">309396</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Test scene file : Cornell.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 100</li>
+</ul>
+<p>It makes slower than before. I think the iteration (loop) for switching digits&#8217; placement in radix sorting is not efficient enough to make it faster. (ex. 800&#215;800 pixels scene have to iterate 20 times to sort)</p>
+<h1>Work-efficient stream compaction</h1>
+<p>This is included in &#8220;Path continuation/termination&#8221; above</p>
+<h1>Refraction with Frensel effects</h1>
+<p>When the user sets the material&#8217;s REFR value to a number over 0.0, refraction material is rendered.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/Refraction.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/Refraction.webp" alt="" / loading="lazy"></a></p>
+<p>&lt; The difference of refraction along the roughness &gt;</p>
+<ul>
+<li>Scene file : Trans.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 5000</li>
+</ul>
+<p>if its REFL value is also 0.0, lambertian-refraction material is called. (The bottom one) And, if the REFL value is 1.0 mirrored-refraction material is called. (The top one) If the REFL value is placed between 0.0 and 1.0, BRDF (cook-torrance) transmission material is rendered. (Triple spheres between the top and bottom)</p>
+<h1>Physically-based depth-of-field</h1>
+<p>When the user sets the camera&#8217;s FOCALDST and LENSRADIOUS values, depth-of-field feature is activate. FOCALDST value control the focus distance from the camera in the scene, literally. And, bigger LENSRADIOUS value makes more blur image. For scaattering the sample on the lens, I use uniform disk distribution with lens radious size.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/dof01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/dof01.webp" alt="" / loading="lazy"></a></p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/dof02.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/dof02.webp" alt="" / loading="lazy"></a></p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/dof03.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/dof03.webp" alt="" / loading="lazy"></a></p>
+<p>&lt; The difference of depth of field along the focal distance &gt;</p>
+<ul>
+<li>Scene file : DOF.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 5000</li>
+</ul>
+<h1>Anti-aliasing</h1>
+<p>When the user sets SRT_SPP (in pathtrace.cu) value to a digit over 1, Anti-aliasing is activate.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/1x.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/1x.webp" alt="" / loading="lazy"></a></p>
+<p>&lt; X1 original image &gt;</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/16x.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/16x.webp" alt="" / loading="lazy"></a></p>
+<p>&lt; X16 anti-aliasing &gt;</p>
+<ul>
+<li>Scene file : cornell.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 5000</li>
+</ul>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/anti.png" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/anti.png" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th align="left">Normal</th>
+<th align="right">x16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ms</td>
+<td align="left">8203</td>
+<td align="right">93476</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Test scene file : cornell.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 100</li>
+</ul>
+<h1>Texture mapping and Bump mapping</h1>
+<p>The user can sets the material&#8217;s DIFFUSEMAP, SPECULARMAP, NORMALMAP and ROUGHNESSMAP. (I didn&#8217;t implement procedural texture fetures) For getting better result, I adjusted bilinear filter to get the texture&#8217;s colors. NORMALMAP&#8217;s values replace the object&#8217;s vertex normal.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/normal.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/normal.webp" alt="" / loading="lazy"></a></p>
+<p>And, ROUGHNESSMAP&#8217;s values make to control the roughness values in BRDF model materials.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/roghness.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/roghness.webp" alt="" / loading="lazy"></a></p>
+<h1>Arbitrary mesh loading and rendering with toggleable bounding volume intersection culling</h1>
+<p>The user can load obj files with using &#8220;mesh&#8221; type and its path. And its bounding box is created automatically.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/BV.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/BV.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th align="left">Normal</th>
+<th align="right">Bounding volume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ms</td>
+<td align="left">55097</td>
+<td align="right">42722</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Test scene file : Chromie.txt</li>
+<li>Resolution : 256 x 256</li>
+<li>Iteration : 100</li>
+</ul>
+<h1>Physically-based BRDF shading</h1>
+<p>If the the material&#8217;s REFL value is placed between 0.0 and 1.0, BRDF (cook-torrance) surface material is rendered.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/PBR.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/PBR.webp" alt="" / loading="lazy"></a></p>
+<p>&lt; The difference along the roughness &gt;</p>
+<ul>
+<li>Test scene file : PBR.txt</li>
+<li>Resolution : 800 x800</li>
+<li>Iteration : 1600</li>
+</ul>
+<p>In above image, left-top one is Ideal diffuse material and right-bottom one is mirrored material. We can check that mirrored material doesn&#8217;t have fresnel effect.</p>
+<h1>Infinite area light</h1>
+<p>When the ray hits nothing, instead of just finishing, it takes a color from enviroment map with its direction. Bilinear filter is also adjusted in this feature.</p>
+<p><a href="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/Infinite.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project3-CUDA-Path-Tracer/img/Infinite.webp" alt="" / loading="lazy"></a></p>
+<ul>
+<li>Test scene file : Infinite.txt</li>
+<li>Resolution : 800 x800</li>
+</ul>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grass Rendering with Tessellation — Byumjin Kim</title>
+<meta name="description" content="Github repo
+Overview
+In this project, I implemented the contents of the paper, Responsive Real-Time Grass Rendering for General 3D Scenes with using Vulkan to i">
+<meta property="og:title" content="Grass Rendering with Tessellation — Byumjin Kim">
+<meta property="og:description" content="Github repo
+Overview
+In this project, I implemented the contents of the paper, Responsive Real-Time Grass Rendering for General 3D Scenes with using Vulkan to i">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2017</span>
+    <h1>Grass Rendering with Tessellation</h1>
+  </header>
+  <div class="prose">
+<p><a href="https://github.com/byumjin/Project6-Vulkan-Grass-Rendering">Github repo</a></p>
+<h3>Overview</h3>
+<p>In this project, I implemented the contents of the paper, <a href="https://www.cg.tuwien.ac.at/research/publications/2017/JAHRMANN-2017-RRTG/JAHRMANN-2017-RRTG-draft.pdf" rel="nofollow">Responsive Real-Time Grass Rendering for General 3D Scenes</a> with using Vulkan to implement a grass simulator and renderer. I used compute shaders to perform physics calculations on Bezier curves that represent individual grass blades in your application.<br />
+Since rendering every grass blade on every frame will is fairly inefficient, I also used compute shaders to cull grass blades that don&#8217;t contribute to a given frame. I wrote a vertex shader to transform Bezier control points, tessellation shaders to dynamically create the grass geometry from the Bezier curves, and a fragment shader to shade the grass blades.</p>
+<p><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/straightWind.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/straightWind.mp4" autoplay loop muted playsinline preload="metadata"></video></a><br />
+&lt; Straight wave &gt;</p>
+<p><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/heliWind.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/heliWind.mp4" autoplay loop muted playsinline preload="metadata"></video></a><br />
+&lt; Helicopter wave &gt;</p>
+<p><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/heliWind2.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/heliWind2.mp4" autoplay loop muted playsinline preload="metadata"></video></a><br />
+&lt; Helicopter wave &gt;</p>
+<h3>Complete requirements</h3>
+<ul>
+<li>Basic Features
+<ul>
+<li>Compute shader
+<ul>
+<li>Representing Grass as Bezier Curves</li>
+<li>Simulating Forces</li>
+<li>Culling tests (Orientation, View-frustum, Distance)</li>
+</ul>
+</li>
+<li>Grass pipeline stages
+<ul>
+<li>Vertex shade</li>
+<li>Tessellation control shader</li>
+<li>Tessellation evaluation shader</li>
+<li>Fragment shader</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Additional Features
+<ul>
+<li>Tessellate to varying levels of detail</li>
+</ul>
+</li>
+</ul>
+<h4>Simulating Forces</h4>
+<p>In additional, with windDirectionalAlignment from paper, I also made stronger stiffness value for vertices close to the ground.<br />
+Because, the wind force is not the only force to restrict grass&#8217; movement.</p>
+<h4>Culling tests</h4>
+<p>When we do View-frustum culling, if we just clip our grass with NDC values, and if we change the direction of view rapidly, empty area can be generated. Simply, instead of cliping with 1.0 and -1.0 value for X and Y coordinate, using larger values, in terms of absoulte value, can address this problem.<br />
+And, I tested 5 positions (v0, v2, mid point ((1/4)v0 * (1/2)v1 * (1/4)v2), mid point between v0 and mid, mid point between mid and v2) whether it should be clipped or not. Because, it seemed still not enough to decide it with just using 3 points.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Threshold</th>
+<th>0.2</th>
+<th>0.5</th>
+<th>0.8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Distance culling</td>
+<td><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/distCull02.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/distCull02.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/distCull05.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/distCull05.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/distCull08.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/distCull08.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+
+<h4>Tessellation for varying levels of detail</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>LOD</th>
+<th>Min</th>
+<th>Max</th>
+<th>Blend Value (more white gives lower LOD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tessellation</td>
+<td><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/minLod.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/minLod.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/maxLod.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/maxLod.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/mixLod.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/mixLod.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+
+<h3>Performance Analysis</h3>
+<h4>Varying numbers of grass blades</h4>
+<p>Resolution : 800 x 600</p>
+<p><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/first.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/first.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Number of blades</th>
+<th>2^15</th>
+<th>2^16</th>
+<th>2^17</th>
+<th>2^18</th>
+<th>2^19</th>
+<th>2^20</th>
+<th>2^21</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>without culling</td>
+<td>1.40</td>
+<td>2.40</td>
+<td>4.40</td>
+<td>8.60</td>
+<td>17.0</td>
+<td>33.0</td>
+<td>67.0</td>
+</tr>
+<tr>
+<td>All culling</td>
+<td>0.37</td>
+<td>0.47</td>
+<td>0.70</td>
+<td>1.02</td>
+<td>1.73</td>
+<td>3.28</td>
+<td>6.33</td>
+</tr>
+</tbody>
+</table></div>
+
+<h4>Orientation culling vs View-frustum culling vs Distance culling</h4>
+<p>Resolution : 800 x 600<br />
+Orientation&#8217;s Threshold : 0.9<br />
+View-frustum&#8217;s clipping value : 1.3<br />
+Distance&#8217;s Threshold : 0.9</p>
+<p><a href="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/second.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project6-Vulkan-Grass-Rendering/img/second.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Number of blades</th>
+<th>2^15</th>
+<th>2^16</th>
+<th>2^17</th>
+<th>2^18</th>
+<th>2^19</th>
+<th>2^20</th>
+<th>2^21</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Orientation</td>
+<td>1.38</td>
+<td>2.25</td>
+<td>4.20</td>
+<td>8.00</td>
+<td>15.9</td>
+<td>30.3</td>
+<td>62.5</td>
+</tr>
+<tr>
+<td>View-frustum</td>
+<td>0.46</td>
+<td>0.60</td>
+<td>0.93</td>
+<td>1.56</td>
+<td>3.00</td>
+<td>5.71</td>
+<td>11.1</td>
+</tr>
+<tr>
+<td>Distance</td>
+<td>1.13</td>
+<td>1.94</td>
+<td>3.61</td>
+<td>6.99</td>
+<td>13.5</td>
+<td>27.0</td>
+<td>55.5</td>
+</tr>
+</tbody>
+</table></div>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

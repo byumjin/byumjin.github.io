@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raymarching against SDF – Duck never fly — Byumjin Kim</title>
+<meta name="description" content="Univer sity of Pennsylvania – CIS 566 Project 3: Raymarching against SDF
+pennkey : byumjin
+name : Byumjin Kim
+Git repo
+
+Live Demo
+
+﻿﻿ 
+
+Shader Toy
+WebGL Link
+
+T">
+<meta property="og:title" content="Raymarching against SDF – Duck never fly — Byumjin Kim">
+<meta property="og:description" content="Univer sity of Pennsylvania – CIS 566 Project 3: Raymarching against SDF
+pennkey : byumjin
+name : Byumjin Kim
+Git repo
+
+Live Demo
+
+﻿﻿ 
+
+Shader Toy
+WebGL Link
+
+T">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2018</span>
+    <h1>Raymarching against SDF – Duck never fly</h1>
+  </header>
+  <div class="prose">
+<ul>
+<li>Univer sity of Pennsylvania &#8211; CIS 566 Project 3: Raymarching against SDF</li>
+<li>pennkey : byumjin</li>
+<li>name : <a href="https://github.com/byumjin">Byumjin Kim</a></li>
+<li><a href="https://github.com/byumjin/SadDuck">Git repo</a></li>
+</ul>
+<h2>Live Demo</h2>
+<p><a href="https://www.shadertoy.com/view/4sdcz8" rel="nofollow"><img class="aligncenter" src="../../assets/img/gh/SadDuck/Images/main.webp" alt="" / loading="lazy"></a></p>
+<p><iframe src="https://www.shadertoy.com/embed/4sdcz8" width="1200" height="675"><span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start">﻿</span><span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start">﻿</span> </iframe></p>
+<ul>
+<li><a href="https://www.shadertoy.com/view/4sdcz8" rel="nofollow">Shader Toy</a></li>
+<li><a href="https://byumjin.github.io/SadDuck/" rel="nofollow">WebGL Link</a></li>
+</ul>
+<p>To compare this with the reference without extra credit features, please turn &#8220;PureDuck&#8221; option on.</p>
+<h2>Overview</h2>
+<p>Using SDF(Signed Distance Function)s and toon shading, I have created the Duck refered to the reference image above.</p>
+<h2>Comparision</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>SDF Duck</th>
+<th>Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/SadDuck/Images/duck.gif" target="_blank" rel="noopener"><img src="../../assets/img/gh/SadDuck/Images/duck.gif" alt="" / loading="lazy"></a></td>
+<td><a href="https://camo.githubusercontent.com/b70e6cce47a0bd667b7aa9944d4fb4fded593191/687474703a2f2f692e696d6775722e636f6d2f306b76744d4c452e676966" target="_blank" rel="noopener"><img src="../../assets/img/ext/camo.githubusercontent.com/687474703a2f2f692e696d6775722e636f6d2f306b76744d4c452e676966" width="400px" data-canonical-src="http://i.imgur.com/0kvtMLE.gif" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Used Techniques</h3>
+<ul>
+<li>Modelling the duckIt is nearly same what I did for my previous <a href="https://byumjin.github.io/procedural_kirby/" rel="nofollow">HW</a>. The all parts of my duck are created by unioning of spheres and ellipsoids (some of them are bended, streched, scaled). Making hierarchy structure was good for controlling duck&#8217;s animations like below.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Hierarchy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/SadDuck/Images/hr.png" target="_blank" rel="noopener"><img src="../../assets/img/gh/SadDuck/Images/hr.png" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Head BobI used simple sin function to bob the head. And there is a little time gap between head bobbing and Body bobbing to make it more natural.</li>
+<li>Tail WagIt seemed that just using one geometry to make tail wag looked difficult. So, I add tail, which is an ellipsoid, then used smoothUnion function to make them merge smoothly. Then, wagged the tail with the opposite direction from those of its body.</li>
+<li>Match the movement of the feetGaited motion is the most common and also tricky animation. This is because if we just use simple functions like sin or cos for makking the legs swing, it won&#8217;t look natural. To fix this, I assgined more timeline for landing motion.</li>
+<li>Shading of the duckMaking shading model to immitate reference image was interesting because it was literally toon shading. Coloring was simple but adding edges was tricky because it was impossible to assign the edges what I intended (accurate width, accurate position) with just using raymarching. Anyway, to make these effect, I used Dot product of normal and view direction. If this value is less than a certain threshold value, it is area of the edge. And, I also used AO information to complement this.</li>
+<li>Fake shadows as circlesThere are two options to do this. First one is, make this as screen space effect with using UV coordinates of our scene. The other one is, add other implicit surfaces like the duck and make them look like flat shadow tracing the duck&#8217;s feet. First option was more efficient and easy but I didn&#8217;t want to make my scene fixed for just one view direction. So, I added 3 flat ellipsoids under the duck&#8217;s feet. And made them move the same way.</li>
+</ul>
+<h3>For More&#8230;</h3>
+<p>I added Day of Time system.</p>
+<ul>
+<li>Sun and Moon</li>
+<li>Sky gradation</li>
+<li>Sky objects such as clouds and star fields</li>
+<li>Land which uses blended textures along noise</li>
+<li>Fog</li>
+</ul>
+<h2>Reference</h2>
+<ul>
+<li><a href="http://www.iquilezles.org/index.html" rel="nofollow">Íñigo Quílez&#8217;s web site</a></li>
+</ul>
+
+
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

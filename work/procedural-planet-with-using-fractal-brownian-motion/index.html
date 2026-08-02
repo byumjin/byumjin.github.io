@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Procedural Planet with using Fractal Brownian Motion — Byumjin Kim</title>
+<meta name="description" content="Live Demo
+Live Demo Link
+Overview
+
+I have created a procedural planet, which is refered to Implicit Procedural Planet Generation mostly, on my shader.
+
+GUI
+
+
+Th">
+<meta property="og:title" content="Procedural Planet with using Fractal Brownian Motion — Byumjin Kim">
+<meta property="og:description" content="Live Demo
+Live Demo Link
+Overview
+
+I have created a procedural planet, which is refered to Implicit Procedural Planet Generation mostly, on my shader.
+
+GUI
+
+
+Th">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2018</span>
+    <h1>Procedural Planet with using Fractal Brownian Motion</h1>
+  </header>
+  <div class="prose">
+<p><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/main.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/main.webp" alt="" / loading="lazy"></a></p>
+<h1>Live Demo</h1>
+<p><a href="https://byumjin.github.io/byumjin-noisy-planets/" rel="nofollow">Live Demo Link</a></p>
+<h1>Overview</h1>
+<ul>
+<li>I have created a procedural planet, which is refered to <a href="https://static1.squarespace.com/static/58a1bc3c3e00be6bfe6c228c/t/58a4d25146c3c4233fb15cc2/1487196929690/ImplicitProceduralPlanetGeneration-Report.pdf" rel="nofollow">Implicit Procedural Planet Generation</a> mostly, on my shader.</li>
+</ul>
+<h2>GUI</h2>
+<p><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/GUI.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/GUI.webp" alt="" / loading="lazy"></a></p>
+<ul>
+<li>This project has many options which can control various values to change the planet.</li>
+<li>Tesselations : it decides how much the planet should be divided.</li>
+<li>SunDirection : it shows the sun&#8217;s direction which indicates the direction of its directional light.</li>
+<li>Colors : The user can pick each terrain layer&#8217;s color</li>
+<li>Terrain : It has values wihch can change a certain terrain&#8217;s slope, shape, height and etc.</li>
+<li>Time : The user can switch it off or on.</li>
+<li>EnviromentMap : The user can switch it off or on.</li>
+<li>Noise4D : The user can switch it off or on.</li>
+<li>Shader : The user can select several surface reflection models.</li>
+</ul>
+<h2>Terrain</h2>
+<ul>
+<li>Terrains are consists of 5 layers (shoreline, foliage, steep, snow, ice)</li>
+</ul>
+<h3>LandScape</h3>
+<ul>
+<li>I have used Fractal Brownian Motion to make procedural landscape.</li>
+<li>OceanHeight(absolute value) decides the height of water from the center of planet.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>0.8</th>
+<th>0.9</th>
+<th>1.0</th>
+<th>1.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/ocean_00.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/ocean_00.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/ocean_01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/ocean_01.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/ocean_03.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/ocean_03.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>ShoreHieght(relative value) decides the height of shore area from the Ocean&#8217;s Height.</li>
+<li>SnowHieght(absolute value) decides the height of snowy area.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>0.9</th>
+<th>1.0</th>
+<th>1.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/snow_01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/snow_01.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/snow_02.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/snow_02.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>PolarCapsAttitude(absolute Y value) decides the attitude of the starting height of icy land.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>1.1</th>
+<th>0.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/polarCap_01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/polarCap_01.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/polarCap_02.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/polarCap_02.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Using with Terrain Exponential, The user can make default terrain to make it steeper, more dramatic or more homogenous in height. Steeper area shows steeps color more, and more homogenous are shows foliage color more.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>0.15</th>
+<th>0.35</th>
+<th>0.5</th>
+<th>1.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/exp_00.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/exp_00.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/exp_01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/exp_01.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/exp_02.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/exp_02.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Ocean</h3>
+<ul>
+<li>Depending on the water depth from its terrain, deeper ocean has darker color and more wavy surface.</li>
+<li>I also have used Fractal Brownian Motion with higher frequency to make wave.</li>
+</ul>
+<h3>Surface Normal</h3>
+<ul>
+<li>I think surface normal is the most important feature to make our planet fancy.</li>
+<li><a href="https://static1.squarespace.com/static/58a1bc3c3e00be6bfe6c228c/t/58a4d25146c3c4233fb15cc2/1487196929690/ImplicitProceduralPlanetGeneration-Report.pdf" rel="nofollow">The paper</a> recommands to use Gradient Approximation to get surface normal. But, it is too expensive because it needs use the FBM function 6 times. Instead of using that, I used the result of our FBM with dFdx and dFdy functions on fragment shader. If our drawned number of fragment is less that the number of vertex of our planet, it is much efficient because it just use the FBM fuction 2 times. But, if the area ofour planet on fragment shader is not enough, it will make ugly noise. To handle this, FBM function has LOD parameter. If the distance between the planet and camera is getting further, the number of loop of the FBM decrease. In other word, it shows less detail of the terrain.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>LOD 0</th>
+<th>LOD 1</th>
+<th>LOD 2</th>
+<th>LOD 3</th>
+<th>LOD 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_01.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_02.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_02.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_03.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_03.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_04.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_04.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_05.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/LOD_05.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Reflection Model</h2>
+<ul>
+<li>Each terrain layer has its roughness, respectively.</li>
+<li>Depending on its roughness, it reflects different amount of light energy along its surface normal.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Lambert</th>
+<th>Blinn-Phong</th>
+<th>Phsically-based</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/lambert.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/lambert.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/blinn.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/blinn.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/pbs.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/pbs.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Environment Map</h3>
+<ul>
+<li>Enviroment map is one of the efficient way to make fancy reflection effect with cheap performance.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Off</th>
+<th>On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/no_env.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/no_env.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Background</h2>
+<h3>Halo</h3>
+<ul>
+<li>Instead of using ray-tracing to find the edge of the planet, I traced screen space position of the planet to make gradation effect.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Blue</th>
+<th>Pink</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/default.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/byumjin-noisy-planets/imgs/halo_01.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/byumjin-noisy-planets/imgs/halo_01.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Star-field</h3>
+<ul>
+<li>I also have used FBM to make twinkling stars.</li>
+<li>Depending on its screen space position, its twinkling period is decided.</li>
+</ul>
+<h2>Reference</h2>
+<ul>
+<li><a href="https://static1.squarespace.com/static/58a1bc3c3e00be6bfe6c228c/t/58a4d25146c3c4233fb15cc2/1487196929690/ImplicitProceduralPlanetGeneration-Report.pdf" rel="nofollow">Implicit Procedural Planet Generation</a></li>
+</ul>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>

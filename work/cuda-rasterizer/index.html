@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CUDA Rasterizer — Byumjin Kim</title>
+<meta name="description" content="Github repo
+Overview
+In this project, I have used CUDA to implement a simplified rasterized graphics pipeline, similar to the OpenGL pipeline vertex shading, pr">
+<meta property="og:title" content="CUDA Rasterizer — Byumjin Kim">
+<meta property="og:description" content="Github repo
+Overview
+In this project, I have used CUDA to implement a simplified rasterized graphics pipeline, similar to the OpenGL pipeline vertex shading, pr">
+<link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="../../index.html">
+      <span class="brand-mark"></span>Byumjin Kim
+    </a>
+    <nav class="site-nav"><a href="../../index.html" class="active">Work</a><a href="../../thesis/">Thesis</a><a href="../../about/">About</a><a href="../../resume/">Resume</a><a href="../../contact/">Contact</a></nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="wrap project">
+  <p class="crumb"><a href="../../index.html">&larr; All work</a></p>
+  <header class="project-head">
+    <span class="chip">2017</span>
+    <h1>CUDA Rasterizer</h1>
+  </header>
+  <div class="prose">
+<p><a href="https://github.com/byumjin/Project4-CUDA-Rasterizer">Github repo</a></p>
+<h3>Overview</h3>
+<p>In this project, I have used CUDA to implement a simplified rasterized graphics pipeline, similar to the OpenGL pipeline vertex shading, primitive assembly, rasterization, fragment shading, and a framebuffer for basic features.</p>
+<p><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/cover.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/cover.mp4" autoplay loop muted playsinline preload="metadata"></video></a></p>
+<ul>
+<li>Model : Johanna.gltf</li>
+<li>Resolution : 800 x 800</li>
+</ul>
+<ul>
+<li>Physically-based rendering material</li>
+<li>Texture mapping</li>
+<li>Normal mapping</li>
+<li>Environment Map</li>
+<li>Bloom (HDR)</li>
+</ul>
+<h3>Complete requirements</h3>
+<ul>
+<li>Basic Features
+<ul>
+<li>Vertex shading</li>
+<li>Primitive assembly</li>
+<li>Rasterization</li>
+<li>Fragment shading</li>
+<li>A depth buffer for storing and depth testing fragments</li>
+<li>Fragment-to-depth-buffer writing</li>
+<li>Blinn-Phong shading</li>
+</ul>
+</li>
+<li>Additional Features
+<ul>
+<li>Correct color interpolation between points on a primitive</li>
+<li>Bloom with Using shared memory</li>
+<li>Backface culling with using stream compaction</li>
+<li>Blending Stage</li>
+<li>UV texture mapping with bilinear texture filtering and perspective correct texture coordinates</li>
+<li>Super Sample Anti-Aliasing</li>
+</ul>
+</li>
+<li>Independent features
+<ul>
+<li>Physically-based BRDF shading</li>
+<li>Environment mapping</li>
+<li>Normal mapping</li>
+</ul>
+</li>
+</ul>
+<h4>Correct color interpolation between points on a primitive</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Normal Vertex</th>
+<th>Corrected Vertex</th>
+<th>Comparision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Vertex.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Vertex.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/CorrectVertex.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/CorrectVertex.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/VertexColor.gif" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/VertexColor.gif" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>In graphics API such as DirectX or OpenGL, persepctive correction is adjusted automatically. But, we need to implement it for this project, manually. I have refered to <a href="http://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/perspective-correct-interpolation-vertex-attributes" rel="nofollow">scratchapixel&#8217;s web page</a>.</p>
+<h4>Perspective correct texture coordinates &amp; Bilinear texture filtering</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Normal</th>
+<th>Corrected</th>
+<th>Bilinear</th>
+<th>Comparision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Checker.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Checker.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Correction.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Correction.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Bilinear.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Bilinear.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/ERROR.gif" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/ERROR.gif" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>When we try to get texture colors along UV coordinates, it will make blocky artifacts because texture&#8217;s color information is consist of texel beased on integer. Instead of using this raw integer information, we can interpolate this texel information with float UV coordinates to remove the artifact.</p>
+<h4>Normal(Bump) mapping</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Vertex Normal</th>
+<th>Normal mapping</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/FlatNormal.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/FlatNormal.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Normal.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Normal.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/duck.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/duck.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<h4>Backface culling</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Normal</th>
+<th>Back Face Culling</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/BackFace.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/BackFace.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/BackfaceCulling.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/BackfaceCulling.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>If we don&#8217;t need translucent material and use only convex polygons, we don&#8217;t need to draw back-faces of our objects. if the result of dot product between view vector and triangle&#8217;s face normal is minus value, we can assume it is back-face. Using thrust functions, I could use stream compaction, easily</p>
+<h4>Super Sample Anti-Aliasing</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>x1 Sample</th>
+<th>x16 Sample</th>
+<th>Comparision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/x1.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/x1.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/x16.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/x16.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/SSAA.gif" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/SSAA.gif" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>I think, Super Sample Anti-Aliasing is the worst efficient AA method.</p>
+<h4>Physically-based BRDF shading</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Diffuse</th>
+<th>Roughness</th>
+<th>Metallic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/phong_static.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/phong_static.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Roughness.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Roughness.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Metallic.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Metallic.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>I added Physically-based rendering material based on cook-torrence BRDF model. According to its Roughness value per fragment, it decides its unique surface texture.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Environment</th>
+<th>PBS</th>
+<th>PBS + Bloom</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Env.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Env.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/PBS_static.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/PBS_static.webp" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Bloom_static.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Bloom_static.webp" alt="" / loading="lazy"></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>And, for this project, I also added Metallic value which indicates the degree how the surface is more like metal. So, if the metallic value is close to 1.0, it will relfect its environment more.</p>
+<h4>Environment mapping</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Environment Only</th>
+<th>Reflection on Shield</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Env.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Env.mp4" autoplay loop muted playsinline preload="metadata"></video></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/sheild.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/sheild.mp4" autoplay loop muted playsinline preload="metadata"></video></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>If the fragment&#8217;s metallic is not zero, it takes a color from enviroment map with reflection vector&#8217;s direction.</p>
+<h4>Bloom &amp; Blending Stage (Post Process)</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Extract HDR Fragments</th>
+<th>Bloom Only</th>
+<th>PBS + Bloom</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/hdr.gif" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/hdr.gif" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/bloomonly.gif" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/bloomonly.gif" alt="" / loading="lazy"></a></td>
+<td><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/final.mp4" target="_blank" rel="noopener"><video class="gifvid" src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/final.mp4" autoplay loop muted playsinline preload="metadata"></video></a></td>
+</tr>
+</tbody>
+</table></div>
+<p>Bloom (sometimes referred to as light bloom or glow) is a computer graphics effect used in video games, demos, and high dynamic range rendering (HDRR) to reproduce an imaging artifact of real-world cameras. For the first stage, I extracted very bright fragments of the scene. Then, to blur image, I used Gaussian blurring method, which is called two passes (The first pass is for Horizontal Blurring and, the second pass is for Vertical Blurring). Because, for this method, it was easy to use shared memory feature to get its near fragment information per each pixel. Finally, add fragments of bloom effect to original scene fragment through Blending stage.</p>
+<h3>Performance Analysis</h3>
+<h4>Pipeline stage performance</h4>
+<p><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Pipeline.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Pipeline.webp" alt="" / loading="lazy"></a></p>
+<p>unit : micro seconds</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Vertex Shader</th>
+<th>Backface Culling</th>
+<th>Rasterize</th>
+<th>Fragment Shader</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.354</td>
+<td>1.809</td>
+<td>2.598</td>
+<td>2.832</td>
+</tr>
+</tbody>
+</table></div>
+<h4>Perspective correct texture coordinates</h4>
+<p><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Perspective.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Perspective.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Off</th>
+<th>On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>142</td>
+<td>140</td>
+</tr>
+</tbody>
+</table></div>
+<h4>Bilinear texture filtering</h4>
+<p><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Bilinear_Performance.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Bilinear_Performance.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Off</th>
+<th>On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>140</td>
+<td>68</td>
+</tr>
+</tbody>
+</table></div>
+<h4>Backface culling</h4>
+<p><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/BACK_Performance.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/BACK_Performance.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Off</th>
+<th>IF-STATEMENT</th>
+<th>THRUST</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>122</td>
+<td>141</td>
+<td>57</td>
+</tr>
+</tbody>
+</table></div>
+<p>An interesting point is Thrust backfaceCulling makes much slower.</p>
+<h4>Super Sample Anti-Aliasing</h4>
+<p><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/SSAA_Performance.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/SSAA_Performance.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>x1</th>
+<th>x4</th>
+<th>x9</th>
+<th>x16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>141</td>
+<td>36</td>
+<td>15</td>
+<td>9</td>
+</tr>
+</tbody>
+</table></div>
+<h4>Blinn-Phong vs Physically-based BRDF shading</h4>
+<p><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Shading_Performance.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Shading_Performance.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Blinn-Phong</th>
+<th>PBS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>141</td>
+<td>135</td>
+</tr>
+</tbody>
+</table></div>
+<h4>Bloom</h4>
+<p><a href="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Bloom_Performance.webp" target="_blank" rel="noopener"><img src="../../assets/img/gh/Project4-CUDA-Rasterizer/img/Bloom_Performance.webp" alt="" / loading="lazy"></a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Off</th>
+<th>On</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>141</td>
+<td>102</td>
+</tr>
+</tbody>
+</table></div>
+
+  </div>
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <p>&copy; Byumjin Kim &middot; <a href="mailto:kimchistorm.3603@gmail.com">kimchistorm.3603@gmail.com</a></p>
+    <p><a href="https://github.com/byumjin" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+</body>
+</html>
